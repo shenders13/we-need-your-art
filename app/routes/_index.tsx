@@ -22,13 +22,13 @@ export default function Index() {
   }, [sliderValue, estimateTime])
 
   return (
-    <motion.div className='w-full min-h-screen flex flex-col'>
+    <div className='w-full min-h-screen flex flex-col'>
       <header className="max-w-screen-2xl mx-auto px-4">
         <div className="pt-4 mb-8 md:mb-16 md:my-16 px-4">
-        <h1 className="m-0 text-black text-center text-2xl md:text-7xl text-primary overflow-hidden pb-1">
+        <h1 className="m-0 text-black text-center text-3xl md:text-7xl text-primary overflow-hidden pb-1">
           We need your art.
         </h1>
-        <motion.h2 className="text-center text-black text-xs md:text-xl xl:text-2xl leading-tight font-semibold md:mt-3 mb-6"
+        <motion.h2 className="text-center text-black text-xs md:text-xl xl:text-2xl leading-tight md:font-semibold font-medium md:mt-3 mb-6"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -37,11 +37,15 @@ export default function Index() {
         </motion.h2>
         </div>
       </header>
-      <main className="max-w-lg mx-auto">
+      <motion.main className="max-w-lg mx-auto"
+        initial={{opacity: 0, y: -20 }}
+        animate={{opacity: 1, y: 0 }}
+        transition={{ delay: 3.5 }}
+      >
         <div className="flex items-center justify-center">
-          <div className="text-5xl md:text-7xl w-48 h-48 rounded-full flex-col flex items-center justify-center border border-8 border-black">
+          <div className="text-5xl md:text-7xl w-36 h-36 md:w-48 md:h-48 border-4 md:border-8 rounded-full flex-col flex items-center justify-center border  border-black">
           {days}
-          <span className="text-md md:text-lg">days</span>
+          <span className="text-sm md:text-lg">days</span>
           </div>
         </div>
         <div className="bg-white px-6 py-12 shadow-lg sm:rounded-lg sm:px-12 mt-6">
@@ -94,7 +98,7 @@ export default function Index() {
             </Slider>
           </div>
         </div>
-      </main>
-    </motion.div>
+      </motion.main>
+    </div>
   );
 }
