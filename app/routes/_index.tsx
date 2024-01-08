@@ -36,7 +36,7 @@ export default function Index() {
   }, [sliderValue, projectLength, mode])
 
   return (
-    <div className='w-full min-h-screen flex flex-col'>
+    <div className='w-full flex flex-col' style={{minHeight: '100dvh'}}>
       <header className="max-w-screen-2xl mx-auto px-4">
         <div className="pt-4 mb-8 md:mb-16 md:my-16 px-4">
         <h1 className="m-0 text-black text-center text-3xl md:text-7xl text-primary overflow-hidden pb-1">
