@@ -6,6 +6,7 @@ export default {
     extend: {},
   },
   plugins: [
-    require('tailwindcss-react-aria-components')
+    require('tailwindcss-react-aria-components'),
+    require('@tailwindcss/forms')
   ],
 } satisfies Config

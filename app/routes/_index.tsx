@@ -3,7 +3,7 @@ import { Slider, SliderOutput, SliderThumb, SliderTrack} from 'react-aria-compon
 import {
   motion,
 } from "framer-motion"
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,14 +12,28 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+const MAX_HOURS_PER_WEEK = 80
+const MAX_WORDS_PER_WEEK = 50000
+
+const DEFAULT_HOURS_PER_WEEK = 30
+const DEFAULT_WORDS_PER_WEEK = 10000
+
 export default function Index() {
-  const [sliderValue, setSliderValue] = useState(30)
-  const [estimateTime, setEstimateTime] = useState(1000)
+  const [projectLength, setProjectLength] = useState<number>(150)
+  const [mode, setMode] = useState<'hours' | 'words'>('hours')
+  const [sliderValue, setSliderValue] = useState(mode === "hours" ? DEFAULT_HOURS_PER_WEEK : DEFAULT_WORDS_PER_WEEK)
+
+  useEffect(() => {
+    setSliderValue(mode === "hours" ? DEFAULT_HOURS_PER_WEEK : DEFAULT_WORDS_PER_WEEK)
+  }, [mode])
   
   const days = useMemo(() => {
+    if (!projectLength) return '-'
     if (sliderValue === 0) return '-'
-    return Math.ceil(estimateTime / sliderValue)
-  }, [sliderValue, estimateTime])
+
+    return Math.ceil((projectLength / sliderValue) * 7)
+
+  }, [sliderValue, projectLength, mode])
 
   return (
     <div className='w-full min-h-screen flex flex-col'>
@@ -40,7 +54,7 @@ export default function Index() {
       <motion.main className="max-w-lg mx-auto"
         initial={{opacity: 0, y: -20 }}
         animate={{opacity: 1, y: 0 }}
-        transition={{ delay: 3.5 }}
+        transition={{ delay: 1.5 }}
       >
         <div className="flex items-center justify-center">
           <div className="text-5xl md:text-7xl w-36 h-36 md:w-48 md:h-48 border-4 md:border-8 rounded-full flex-col flex items-center justify-center border  border-black">
@@ -51,34 +65,52 @@ export default function Index() {
         <div className="bg-white px-6 py-12 shadow-lg sm:rounded-lg sm:px-12 mt-6">
           {/* Project Length Estimate input */}
           <div>
-            <label htmlFor="estimate-time" className="block text-sm font-medium leading-6 text-gray-900">
-              How long will this entire project will take?
+            <label htmlFor="projectLength" className="block text-sm font-medium leading-6 text-gray-900">
+            How long will this entire project will take?
             </label>
-            <div className="mt-2 relative mt-2 rounded-md shadow-sm">
+            <div className="relative mt-2 rounded-md shadow-sm">
               <input
                 type="number"
-                name="estimate-time"
-                id="estimate-time"
-                className="block w-full rounded-md border-0 pl-2 py-1.5 text-gray-900 shadow-sm focus:ring-black  placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                placeholder="e.g 250"
-                min="1"
-                value={estimateTime}
-                onChange={(e) => setEstimateTime(e.target.valueAsNumber)}
+                name="projectLength"
+                id="projectLength"
+                className="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                placeholder="Take a rough stab"
+                value={projectLength}
+                onChange={(e) => setProjectLength(parseInt(e.target.value))}
               />
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                <span className="text-gray-500 sm:text-sm" id="hours">
-                  hours
-                </span>
+              <div className="absolute inset-y-0 right-0 flex items-center">
+                <label htmlFor="hoursOrWords" className="sr-only">
+                  How long will this entire project will take?
+                </label>
+                <select
+                  id="hoursOrWords"
+                  name="hoursOrWords"
+                  className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  onChange={(e) => setMode(e.target.value as 'hours' | 'words')}
+                  value={mode}
+                >
+                  <option>hours</option>
+                  <option>words</option>
+                </select>
               </div>
             </div>
           </div>
+
           {/* Hours per week slider */}
           <div className="flex justify-center mt-8">
-            <Slider value={sliderValue} className="w-full" maxValue={80} minValue={0} onChange={(val) => {
-              setSliderValue(val)
-            }}>
+            <Slider 
+              value={sliderValue}
+              className="w-full"
+              maxValue={mode === "hours" ? MAX_HOURS_PER_WEEK : MAX_WORDS_PER_WEEK}
+              minValue={0}
+              onChange={(val) => setSliderValue(val)}
+              >
               <div className="flex text-black justify-between">
-                <label className="block text-sm font-medium leading-6 text-gray-900">Hours you work per week?</label>
+                <label className="block text-sm font-medium leading-6 text-gray-900">
+                  {
+                    mode === 'hours' ? 'Hours you work per week?' : 'Words you write per week?'
+                  }
+                </label>
                 <SliderOutput className='text-sm font-medium leading-6 text-gray-900'/>
               </div>
               <SliderTrack className="relative w-full h-7">
@@ -99,6 +131,13 @@ export default function Index() {
           </div>
         </div>
       </motion.main>
+      <motion.footer className="max-w-screen-2xl mx-auto px-4 flex flex-1 items-end"
+        initial={{opacity: 0, y: 20 }}
+        animate={{opacity: 1, y: 0 }}
+        transition={{ delay: 2 }}
+      >
+        <p className="pb-4 text-center text-sm leading-6 text-slate-500">Made with ❤️ by Amie McNee & James Winestock.</p>
+      </motion.footer>
     </div>
   );
 }
