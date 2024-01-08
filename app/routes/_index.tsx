@@ -73,7 +73,7 @@ export default function Index() {
                 type="number"
                 name="projectLength"
                 id="projectLength"
-                className="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 placeholder="Take a rough stab"
                 value={projectLength}
                 onChange={(e) => setProjectLength(parseInt(e.target.value))}
@@ -85,7 +85,7 @@ export default function Index() {
                 <select
                   id="hoursOrWords"
                   name="hoursOrWords"
-                  className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm"
                   onChange={(e) => setMode(e.target.value as 'hours' | 'words')}
                   value={mode}
                 >
@@ -136,7 +136,7 @@ export default function Index() {
         animate={{opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
       >
-        <p className="pb-4 text-center text-sm leading-6 text-slate-500">Made with ❤️ by Amie McNee & James Winestock.</p>
+        <p className="pb-4 text-center text-sm leading-6 text-slate-500">Made with ❤️ by <a href="https://www.amiemcnee.com" target="__blank" className="text-sky-500 hover:underline">Amie McNee & James Winestock</a>.</p>
       </motion.footer>
     </div>
   );
