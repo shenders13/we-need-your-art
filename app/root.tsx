@@ -28,6 +28,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6b2bcdba74c64d60aa38158dda4d7a36"}'></script><!-- End Cloudflare Web Analytics -->
       </body>
     </html>
   );
